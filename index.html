@@ -467,13 +467,18 @@
                         needed.</p>
 
                     <!-- FormSubmit Form -->
-                    <form action="https://formsubmit.co/lutbl@outlook.com" method="POST" class="email-form">
+                    <form action="https://formsubmit.co/lutbl@outlook.com" method="POST">
+                        <!-- CAPTCHA kapalı -->
                         <input type="hidden" name="_captcha" value="false">
-                        <input type="hidden" name="_next" value="https://ai-headshot-landing.vercel.app/thankyou.html">
-                        <input type="hidden" name="_subject" value="New AI Headshot Generator Signup">
-                        <input type="email" name="email" placeholder="Enter your email address" class="email-input"
-                            required>
-                        <button type="submit" class="cta-button">Join the Waitlist</button>
+
+                        <!-- Başarılı gönderim sonrası yönlendirme -->
+                        <input type="hidden" name="_next" value="https://ai-headshot-five.vercel.app/thankyou.html">
+
+                        <!-- E-posta alanı -->
+                        <input type="email" name="email" placeholder="Enter your email" required>
+
+                        <!-- Gönder butonu -->
+                        <button type="submit">Join the Waitlist</button>
                     </form>
 
                     <p class="trust-text">✨ No credit card required • Ready in 2024</p>
