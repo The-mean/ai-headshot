@@ -20,6 +20,7 @@ class PresignTestimonialUploadRequest extends FormRequest
             'campaign_id' => ['required', 'uuid'],
             'extension' => ['nullable', 'string', 'in:webm,mp4,mov'],
             'expires_in_minutes' => ['nullable', 'integer', 'min:1', 'max:60'],
+            'file_size_bytes' => ['nullable', 'integer', 'min:1', 'max:52428800'],
         ];
     }
 }

@@ -10,7 +10,7 @@
             </a>
         </div>
 
-        <div class="grid gap-4 sm:grid-cols-3">
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <div class="rounded-3xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
                 <p class="text-xs uppercase tracking-wide text-zinc-500 dark:text-zinc-400">Total Videos</p>
                 <p class="mt-2 text-3xl font-semibold">{{ number_format($stats['total_videos']) }}</p>
@@ -25,6 +25,11 @@
                 <p class="text-xs uppercase tracking-wide text-zinc-500 dark:text-zinc-400">Active Campaigns</p>
                 <p class="mt-2 text-3xl font-semibold">{{ number_format($stats['active_campaigns']) }}</p>
             </div>
+            <div class="rounded-3xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+                <p class="text-xs uppercase tracking-wide text-zinc-500 dark:text-zinc-400">Monthly Upload Usage</p>
+                <p class="mt-2 text-3xl font-semibold">{{ number_format($stats['monthly_upload_mb'], 2) }} <span class="text-base font-medium text-zinc-500">MB</span></p>
+            </div>
+
         </div>
     </div>
 </div>

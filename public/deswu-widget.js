@@ -42,12 +42,23 @@
         video.className = 'deswu-video';
         video.controls = true;
         video.autoplay = true;
-        video.preload = 'metadata';
+        video.preload = 'none';
+        video.loading = 'lazy';
 
-        close.addEventListener('click', function () {
+        function cleanupVideo() {
+            var sources = video.querySelectorAll('source');
+            for (var i = 0; i < sources.length; i += 1) {
+                sources[i].src = '';
+            }
+
             video.pause();
             video.removeAttribute('src');
+            video.srcObject = null;
             video.load();
+        }
+
+        close.addEventListener('click', function () {
+            cleanupVideo();
             modal.remove();
         });
 
@@ -58,6 +69,7 @@
         var source = document.createElement('source');
         source.src = videoUrl;
         source.type = videoUrl.indexOf('.webm') > -1 ? 'video/webm' : 'video/mp4';
+        source.loading = 'lazy';
         video.appendChild(source);
 
         card.appendChild(close);

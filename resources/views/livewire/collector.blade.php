@@ -54,9 +54,15 @@
                 </div>
             </div>
 
+
+            <label class="mt-6 flex items-start gap-3 rounded-2xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900/70 dark:text-zinc-300">
+                <input type="checkbox" class="mt-0.5 h-4 w-4 rounded border-zinc-300" x-model="isConsentGiven">
+                <span>Görüntümün pazarlama amaçlı kullanılmasına ve kullanıcı sözleşmesine izin veriyorum.</span>
+            </label>
+
             <div class="mt-4 flex items-center justify-between">
                 <p class="text-sm text-zinc-500 dark:text-zinc-400" x-text="statusText"></p>
-                <button class="rounded-2xl bg-zinc-900 px-4 py-3 text-sm font-medium text-white dark:bg-white dark:text-zinc-900" @click="uploadVideo" :disabled="!videoBlob || loading">
+                <button class="rounded-2xl bg-zinc-900 px-4 py-3 text-sm font-medium text-white dark:bg-white dark:text-zinc-900" @click="uploadVideo" :disabled="!videoBlob || loading || !isConsentGiven">
                     Upload to Cloud
                 </button>
             </div>
@@ -78,6 +84,7 @@
                 uploadProgress: 0,
                 statusText: 'Ready',
                 darkMode: false,
+                isConsentGiven: false,
 
                 init() {
                     this.darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -150,7 +157,10 @@
                 },
 
                 async uploadVideo() {
-                    if (!this.videoBlob) return;
+                    if (!this.videoBlob || !this.isConsentGiven) {
+                        this.statusText = 'Please accept consent to continue.';
+                        return;
+                    }
 
                     this.loading = true;
                     this.uploadProgress = 0;
@@ -161,7 +171,7 @@
                     const presignResponse = await fetch('/api/v1/testimonials/presign', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ campaign_id: this.campaignId, extension }),
+                        body: JSON.stringify({ campaign_id: this.campaignId, extension, file_size_bytes: this.videoBlob.size }),
                     });
 
                     if (!presignResponse.ok) {
@@ -184,6 +194,7 @@
                             storage_path: uploadData.path,
                             source: 'widget_record',
                             status: 'pending_review',
+                            is_consent_given: this.isConsentGiven,
                             file_size_bytes: this.videoBlob.size,
                             mime_type: this.videoBlob.type,
                             meta: {

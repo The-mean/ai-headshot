@@ -21,6 +21,8 @@ class StoreTestimonialMetadataAction
             'author_name' => $payload['author_name'] ?? null,
             'author_email' => $payload['author_email'] ?? null,
             'author_company' => $payload['author_company'] ?? null,
+            'is_consent_given' => (bool) ($payload['is_consent_given'] ?? false),
+            'ip_address' => $payload['ip_address'] ?? null,
             'source' => $payload['source'] ?? 'widget_upload',
             'status' => $payload['status'] ?? 'uploaded',
             'storage_disk' => $payload['storage_disk'] ?? 'r2',
