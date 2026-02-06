@@ -8,7 +8,7 @@
             <a href="{{ route('admin.dashboard') }}" class="rounded-2xl border border-zinc-300 px-4 py-2 text-sm font-medium dark:border-zinc-700">Back to Dashboard</a>
         </div>
 
-        <div class="rounded-3xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+        <div class="rounded-3xl border border-zinc-200 bg-white/85 p-5 shadow-sm ring-1 ring-transparent backdrop-blur transition dark:bg-zinc-900/80 dark:border-zinc-800 dark:bg-zinc-900">
             <div class="mb-4 flex items-center gap-2">
                 <label for="statusFilter" class="text-sm text-zinc-500 dark:text-zinc-400">Filter:</label>
                 <select id="statusFilter" wire:model.live="statusFilter" class="rounded-xl border border-zinc-300 bg-transparent px-3 py-2 text-sm dark:border-zinc-700">
@@ -44,9 +44,9 @@
                                 <td class="py-3 pr-4 text-zinc-500 dark:text-zinc-400">{{ $item->created_at }}</td>
                                 <td class="py-3 text-right">
                                     <div class="flex justify-end gap-2">
-                                        <button wire:click="openPreview('{{ $item->id }}')" class="rounded-xl border border-zinc-300 px-3 py-1.5 text-xs font-medium dark:border-zinc-700">Oynat</button>
-                                        <button wire:click="approve('{{ $item->id }}')" class="rounded-xl bg-zinc-900 px-3 py-1.5 text-xs font-medium text-white dark:bg-white dark:text-zinc-900">Onayla</button>
-                                        <button wire:click="reject('{{ $item->id }}')" class="rounded-xl border border-red-300 px-3 py-1.5 text-xs font-medium text-red-600 dark:border-red-800 dark:text-red-400">Reddet</button>
+                                        <button wire:click="openPreview('{{ $item->id }}')" class="rounded-xl border border-zinc-300 px-3 py-1.5 text-xs font-medium transition hover:ring-2 hover:ring-zinc-200 dark:border-zinc-700 dark:hover:ring-zinc-700">Oynat</button>
+                                        <button wire:click="approve('{{ $item->id }}')" class="rounded-xl bg-zinc-900 px-3 py-1.5 text-xs font-medium text-white transition hover:-translate-y-0.5 dark:bg-white dark:text-zinc-900">Onayla</button>
+                                        <button wire:click="reject('{{ $item->id }}')" class="rounded-xl border border-red-300 px-3 py-1.5 text-xs font-medium text-red-600 transition hover:ring-2 hover:ring-red-100 dark:border-red-800 dark:text-red-400">Reddet</button>
                                     </div>
                                 </td>
                             </tr>
@@ -61,7 +61,7 @@
         </div>
 
         @if($previewUrl)
-            <div class="rounded-3xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+            <div class="rounded-3xl border border-zinc-200 bg-white/85 p-5 shadow-sm ring-1 ring-transparent backdrop-blur transition dark:bg-zinc-900/80 dark:border-zinc-800 dark:bg-zinc-900">
                 <div class="mb-3 flex items-center justify-between">
                     <h2 class="text-lg font-medium">Video Preview</h2>
                     <button wire:click="closePreview" class="rounded-xl border border-zinc-300 px-3 py-1.5 text-xs dark:border-zinc-700">Close</button>
