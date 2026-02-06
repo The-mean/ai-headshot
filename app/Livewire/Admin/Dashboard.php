@@ -8,6 +8,15 @@ use Livewire\Component;
 
 class Dashboard extends Component
 {
+    public string $analyticsCampaignId = '';
+
+    public function mount(): void
+    {
+        if ($this->analyticsCampaignId === '') {
+            $this->analyticsCampaignId = (string) (DB::table('campaigns')->value('id') ?? '');
+        }
+    }
+
     /**
      * @return array<string, int|float|bool>
      */
@@ -34,8 +43,34 @@ class Dashboard extends Component
 
     public function render()
     {
+        $campaigns = DB::table('campaigns')->select('id', 'name')->orderByDesc('created_at')->limit(20)->get();
+
+        $series = collect();
+        $totals = [
+            'views' => 0,
+            'clicks' => 0,
+            'ctr' => 0.0,
+        ];
+
+        if ($this->analyticsCampaignId !== '') {
+            $series = DB::table('testimonials')
+                ->select('id', 'author_name', 'views_count', 'click_count')
+                ->where('campaign_id', $this->analyticsCampaignId)
+                ->whereNull('deleted_at')
+                ->orderByDesc('views_count')
+                ->limit(8)
+                ->get();
+
+            $totals['views'] = (int) $series->sum('views_count');
+            $totals['clicks'] = (int) $series->sum('click_count');
+            $totals['ctr'] = $totals['views'] > 0 ? round(($totals['clicks'] / $totals['views']) * 100, 2) : 0;
+        }
+
         return view('livewire.admin.dashboard', [
             'stats' => $this->stats(),
+            'campaigns' => $campaigns,
+            'series' => $series,
+            'analyticsTotals' => $totals,
         ]);
     }
 }
