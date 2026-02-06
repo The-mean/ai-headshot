@@ -6,26 +6,29 @@
                 <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">Operational overview for your testimonial engine.</p>
             </div>
             <div class="flex items-center gap-2">
-                <a href="{{ route('admin.widget-builder') }}" class="rounded-2xl border border-zinc-300 bg-white/80 px-4 py-2 text-sm font-medium text-zinc-800 ring-1 ring-transparent backdrop-blur transition hover:-translate-y-0.5 hover:ring-zinc-300 dark:border-zinc-700 dark:bg-zinc-900/80 dark:text-zinc-100">
-                    Widget Builder
-                </a>
-                <a href="{{ route('admin.inbox') }}" class="rounded-2xl bg-zinc-900 px-4 py-2 text-sm font-medium text-white ring-1 ring-zinc-900/20 transition hover:-translate-y-0.5 dark:bg-white dark:text-zinc-900">
-                    Open Inbox
-                </a>
+                <a href="{{ route('admin.widget-builder') }}" class="rounded-2xl border border-zinc-300 bg-white/80 px-4 py-2 text-sm font-medium text-zinc-800 ring-1 ring-transparent backdrop-blur transition hover:-translate-y-0.5 hover:ring-zinc-300 dark:border-zinc-700 dark:bg-zinc-900/80 dark:text-zinc-100">Widget Builder</a>
+                <a href="{{ route('admin.inbox') }}" class="rounded-2xl bg-zinc-900 px-4 py-2 text-sm font-medium text-white ring-1 ring-zinc-900/20 transition hover:-translate-y-0.5 dark:bg-white dark:text-zinc-900">Open Inbox</a>
             </div>
         </div>
+
+        @if($stats['show_onboarding'])
+            <div class="rounded-3xl border border-dashed border-zinc-300 bg-white/90 p-8 text-center shadow-sm ring-1 ring-zinc-200 backdrop-blur dark:border-zinc-700 dark:bg-zinc-900/80 dark:ring-zinc-800">
+                <div class="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-zinc-100 text-3xl dark:bg-zinc-800">🎬</div>
+                <h2 class="text-xl font-semibold tracking-tight">Henüz video yok ama başlamak çok kolay!</h2>
+                <p class="mx-auto mt-2 max-w-xl text-sm text-zinc-500 dark:text-zinc-400">İlk kampanyanı oluştur, müşterilerinden videolu yorum topla ve birkaç dakika içinde sitende sosyal kanıt göstermeye başla.</p>
+                <a href="/admin/campaigns/create" class="mt-5 inline-flex rounded-2xl bg-zinc-900 px-5 py-2.5 text-sm font-semibold text-white ring-1 ring-zinc-900/20 transition hover:-translate-y-0.5 dark:bg-white dark:text-zinc-900">İlk Kampanyanı Oluştur</a>
+            </div>
+        @endif
 
         <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <div class="rounded-3xl border border-zinc-200 bg-white/85 p-5 shadow-sm ring-1 ring-transparent backdrop-blur transition hover:ring-zinc-300 dark:border-zinc-800 dark:bg-zinc-900/80 dark:hover:ring-zinc-700">
                 <p class="text-xs uppercase tracking-wide text-zinc-500 dark:text-zinc-400">Total Videos</p>
                 <p class="mt-2 text-3xl font-semibold">{{ number_format($stats['total_videos']) }}</p>
             </div>
-
             <div class="rounded-3xl border border-zinc-200 bg-white/85 p-5 shadow-sm ring-1 ring-transparent backdrop-blur transition hover:ring-zinc-300 dark:border-zinc-800 dark:bg-zinc-900/80 dark:hover:ring-zinc-700">
                 <p class="text-xs uppercase tracking-wide text-zinc-500 dark:text-zinc-400">Pending Videos</p>
                 <p class="mt-2 text-3xl font-semibold">{{ number_format($stats['pending_videos']) }}</p>
             </div>
-
             <div class="rounded-3xl border border-zinc-200 bg-white/85 p-5 shadow-sm ring-1 ring-transparent backdrop-blur transition hover:ring-zinc-300 dark:border-zinc-800 dark:bg-zinc-900/80 dark:hover:ring-zinc-700">
                 <p class="text-xs uppercase tracking-wide text-zinc-500 dark:text-zinc-400">Active Campaigns</p>
                 <p class="mt-2 text-3xl font-semibold">{{ number_format($stats['active_campaigns']) }}</p>

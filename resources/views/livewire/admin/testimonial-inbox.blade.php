@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-zinc-50 px-6 py-10 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100" x-data="{ toast: null }" @toast.window="toast = $event.detail; setTimeout(() => toast = null, 2400)">
+<div class="min-h-screen bg-zinc-50 px-6 py-10 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100" x-data="{ toast: null }" @toast.window="toast = $event.detail; setTimeout(() => toast = null, 3000)">
     <div class="mx-auto max-w-6xl space-y-6">
         <div class="flex flex-wrap items-center justify-between gap-3">
             <div>
@@ -35,7 +35,7 @@
                     <tbody>
                         @forelse($items as $item)
                             <tr class="border-b border-zinc-100 dark:border-zinc-800/80">
-                                <td class="py-3 pr-4 font-medium">{{ $item->campaign_name }}</td>
+                                <td class="py-3 pr-4 font-medium"><a href="{{ route('admin.campaign.analytics', $item->campaign_id) }}" class="underline decoration-zinc-300 underline-offset-4 hover:decoration-zinc-700">{{ $item->campaign_name }}</a></td>
                                 <td class="py-3 pr-4">{{ $item->author_name ?: 'Anonymous' }}</td>
                                 <td class="py-3 pr-4">{{ $item->source }}</td>
                                 <td class="py-3 pr-4">
@@ -78,7 +78,7 @@
     <div
         x-show="toast"
         x-cloak
-        class="fixed bottom-6 right-6 rounded-2xl bg-zinc-900 px-4 py-2 text-sm text-white shadow-lg dark:bg-white dark:text-zinc-900"
+        class="fixed top-6 right-6 rounded-2xl bg-zinc-900 px-4 py-2 text-sm text-white shadow-lg dark:bg-white dark:text-zinc-900"
         x-text="toast?.message"
     ></div>
 </div>

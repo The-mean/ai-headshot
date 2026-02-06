@@ -55,17 +55,22 @@
         </div>
     </div>
 
+
+
+    <div x-show="toast.message" x-transition x-cloak class="fixed top-6 right-6 rounded-2xl bg-zinc-900/95 px-4 py-3 text-sm text-white shadow-lg ring-1 ring-zinc-700 backdrop-blur dark:bg-white dark:text-zinc-900" x-text="toast.message"></div>
+
     <script>
         function collectorApp(campaignId) {
             return {
                 campaignId, stream: null, mediaRecorder: null, recordedChunks: [], videoBlob: null, previewUrl: null,
                 countdown: 0, recording: false, loading: false, uploadProgress: 0, statusText: 'Ready',
-                darkMode: false, isConsentGiven: false, showGuideOverlay: true,
+                darkMode: false, isConsentGiven: false, showGuideOverlay: true, toast: { message: '' },
 
                 init() { this.darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches; this.syncTheme(); },
                 syncTheme() { document.documentElement.classList.toggle('dark', this.darkMode); },
+                notify(message) { this.toast.message = message; setTimeout(() => { this.toast.message = ''; }, 3000); },
                 async requestCamera() {
-                    try { this.stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true }); this.$refs.liveVideo.srcObject = this.stream; this.statusText = 'Camera is ready.'; this.showGuideOverlay = true; }
+                    try { this.stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true }); this.$refs.liveVideo.srcObject = this.stream; this.statusText = 'Camera is ready.'; this.showGuideOverlay = true; this.notify('Camera permission granted.'); }
                     catch (error) { this.statusText = 'Camera permission denied.'; }
                 },
                 async startRecordingFlow() {
@@ -85,15 +90,15 @@
                 stopRecording() { if (!this.mediaRecorder || !this.recording) return; this.mediaRecorder.stop(); this.recording = false; },
                 onFilePicked(event) { const file = event.target.files[0]; if (!file) return; this.videoBlob = file; this.previewUrl = URL.createObjectURL(file); this.$refs.previewVideo.load(); this.showGuideOverlay = false; this.statusText = 'File selected.'; },
                 async uploadVideo() {
-                    if (!this.videoBlob || !this.isConsentGiven) { this.statusText = 'Please accept consent to continue.'; return; }
+                    if (!this.videoBlob || !this.isConsentGiven) { this.statusText = 'Please accept consent to continue.'; this.notify('Please accept consent first.'); return; }
                     this.loading = true; this.uploadProgress = 0; this.statusText = 'Preparing upload...';
                     const extension = this.videoBlob.type.includes('mp4') ? 'mp4' : 'webm';
                     const presignResponse = await fetch('/api/v1/testimonials/presign', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ campaign_id: this.campaignId, extension, file_size_bytes: this.videoBlob.size }), });
-                    if (!presignResponse.ok) { this.statusText = 'Presign failed.'; this.loading = false; return; }
+                    if (!presignResponse.ok) { this.statusText = 'Presign failed.'; this.notify('Upload URL could not be created.'); this.loading = false; return; }
                     const presignPayload = await presignResponse.json(); const uploadData = presignPayload.data;
                     await this.uploadToR2(uploadData.url, uploadData.headers || {}, this.videoBlob);
                     await fetch('/api/v1/testimonials', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ campaign_id: this.campaignId, storage_disk: 'r2', storage_path: uploadData.path, source: 'widget_record', status: 'pending_review', is_consent_given: this.isConsentGiven, file_size_bytes: this.videoBlob.size, mime_type: this.videoBlob.type, meta: { uploaded_via: 'collector_ui', user_agent: navigator.userAgent }, }), });
-                    this.statusText = 'Uploaded successfully. Pending review.'; this.loading = false;
+                    this.statusText = 'Uploaded successfully. Pending review.'; this.notify('Video uploaded successfully.'); this.loading = false;
                 },
                 uploadToR2(url, headers, file) {
                     return new Promise((resolve, reject) => {

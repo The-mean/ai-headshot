@@ -9,13 +9,12 @@
         var style = document.createElement('style');
         style.id = STYLE_ID;
         style.textContent = '' +
-            '.deswu-hidden{display:none!important}' +
             '.deswu-bubble{position:fixed;bottom:20px;z-index:9999;width:84px;height:84px;border-radius:999px;overflow:hidden;background:#111;box-shadow:0 10px 40px rgba(0,0,0,.25);cursor:pointer;transition:transform .2s ease}' +
             '.deswu-bubble:hover{transform:translateY(-2px)}' +
             '.deswu-bubble--right{right:20px}.deswu-bubble--left{left:20px}' +
             '.deswu-thumb{width:100%;height:100%;object-fit:cover;display:block}' +
             '.deswu-play{position:absolute;inset:auto auto 8px 8px;border:none;background:var(--deswu-primary,#111827);color:#fff;border-radius:999px;padding:6px 9px;font-size:12px;line-height:1;cursor:pointer}' +
-            '.deswu-modal{position:fixed;inset:0;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center;z-index:10000;padding:16px;backdrop-filter:blur(5px)}' +
+            '.deswu-modal{position:fixed;inset:0;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center;z-index:10000;padding:16px;backdrop-filter:blur(6px)}' +
             '.deswu-modal-card{width:min(900px,100%);background:#0f0f10;border-radius:18px;padding:12px;box-sizing:border-box;border:1px solid rgba(255,255,255,.08)}' +
             '.deswu-video{width:100%;max-height:70vh;border-radius:12px;background:#000}' +
             '.deswu-modal-actions{display:flex;justify-content:space-between;gap:10px;margin-top:10px}' +
@@ -33,7 +32,20 @@
         document.head.appendChild(style);
     }
 
-    function createLazyVideoModal(items, startIndex, campaignUrl, theme) {
+    function track(apiBase, type, testimonialId) {
+        if (!testimonialId) return;
+
+        fetch(apiBase.replace(/\/$/, '') + '/widgets/testimonials/' + encodeURIComponent(testimonialId) + '/' + type, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ ts: Date.now() }),
+            keepalive: true,
+        }).catch(function () {
+            // no-op; analytics should never break widget
+        });
+    }
+
+    function createLazyVideoModal(items, startIndex, campaignUrl, theme, apiBase) {
         if (!items.length) return;
 
         var modal = document.createElement('div');
@@ -90,10 +102,17 @@
             source.loading = 'lazy';
             video.appendChild(source);
 
+            track(apiBase, 'view', selected.id);
+
             video.play().catch(function () {
-                // user gesture policies may block autoplay
+                // autoplay can be blocked by browser policies
             });
         }
+
+        cta.addEventListener('click', function () {
+            var selected = items[currentIndex];
+            track(apiBase, 'click', selected && selected.id ? selected.id : null);
+        });
 
         video.addEventListener('ended', function () {
             if (!items.length) return;
@@ -144,7 +163,7 @@
         return btn;
     }
 
-    function renderBubble(container, items, position, campaignUrl, theme) {
+    function renderBubble(container, items, position, campaignUrl, theme, apiBase) {
         if (!items.length) return;
 
         var active = items[0];
@@ -155,13 +174,13 @@
         bubble.style.setProperty('--deswu-primary', theme.primaryColor);
 
         bubble.appendChild(createThumb(active.thumbnail_url, active.author_name));
-        bubble.appendChild(createPlayButton(function () { createLazyVideoModal(items, 0, campaignUrl, theme); }));
-        bubble.addEventListener('click', function () { createLazyVideoModal(items, 0, campaignUrl, theme); });
+        bubble.appendChild(createPlayButton(function () { createLazyVideoModal(items, 0, campaignUrl, theme, apiBase); }));
+        bubble.addEventListener('click', function () { createLazyVideoModal(items, 0, campaignUrl, theme, apiBase); });
 
         document.body.appendChild(bubble);
     }
 
-    function renderGrid(container, items, campaignUrl, theme) {
+    function renderGrid(container, items, campaignUrl, theme, apiBase) {
         var grid = document.createElement('div');
         grid.className = 'deswu-grid';
         grid.style.setProperty('--deswu-primary', theme.primaryColor);
@@ -171,7 +190,7 @@
             var card = document.createElement('div');
             card.className = 'deswu-grid-item';
             card.appendChild(createThumb(item.thumbnail_url, item.author_name));
-            card.appendChild(createPlayButton(function () { createLazyVideoModal(items, index, campaignUrl, theme); }));
+            card.appendChild(createPlayButton(function () { createLazyVideoModal(items, index, campaignUrl, theme, apiBase); }));
 
             if (item.author_name) {
                 var name = document.createElement('span');
@@ -180,7 +199,7 @@
                 card.appendChild(name);
             }
 
-            card.addEventListener('click', function () { createLazyVideoModal(items, index, campaignUrl, theme); });
+            card.addEventListener('click', function () { createLazyVideoModal(items, index, campaignUrl, theme, apiBase); });
             grid.appendChild(card);
         });
 
@@ -217,12 +236,12 @@
                 if (!items.length) return;
 
                 if (mode === 'bubble') {
-                    renderBubble(container, items, position, campaignUrl, theme);
+                    renderBubble(container, items, position, campaignUrl, theme, apiBase);
                     if (brandingRequired) appendBranding(container);
                     return;
                 }
 
-                renderGrid(container, items, campaignUrl, theme);
+                renderGrid(container, items, campaignUrl, theme, apiBase);
 
                 if (brandingRequired) {
                     appendBranding(container);

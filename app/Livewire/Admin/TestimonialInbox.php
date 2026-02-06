@@ -81,7 +81,8 @@ class TestimonialInbox extends Component
                 'testimonials.status',
                 'testimonials.source',
                 'testimonials.created_at',
-                'campaigns.name as campaign_name'
+                'campaigns.name as campaign_name',
+                'campaigns.id as campaign_id'
             )
             ->orderByDesc('testimonials.created_at');
 
