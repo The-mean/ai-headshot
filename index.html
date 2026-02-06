@@ -1,1 +1,133 @@
+<!doctype html>
+<html lang="tr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deswu — Videolu Yorumlarla Güven İnşa Edin</title>
+  <meta name="description" content="Deswu ile videolu müşteri yorumlarını toplayın, yayınlayın ve dönüşüm oranlarınızı artırın." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+          },
+          boxShadow: {
+            soft: '0 10px 40px rgba(2, 6, 23, 0.08)',
+          },
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-zinc-50 text-zinc-900 antialiased">
+  <header class="sticky top-0 z-40 border-b border-zinc-200/70 bg-white/80 backdrop-blur">
+    <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+      <a href="#" class="text-lg font-semibold tracking-tight">deswu<span class="text-zinc-400">.co</span></a>
+      <a href="#pricing" class="rounded-full border border-zinc-300 px-4 py-2 text-sm font-medium transition hover:bg-zinc-900 hover:text-white">Fiyatlar</a>
+    </div>
+  </header>
 
+  <main>
+    <section class="relative overflow-hidden">
+      <div class="absolute inset-0 -z-10 bg-gradient-to-b from-white via-zinc-50 to-zinc-100"></div>
+      <div class="mx-auto grid max-w-6xl gap-10 px-6 pb-20 pt-20 lg:grid-cols-[1.2fr_.8fr] lg:items-center">
+        <div>
+          <p class="mb-4 inline-flex items-center rounded-full border border-zinc-300 bg-white px-3 py-1 text-xs font-medium text-zinc-600">E-ticaret için videolu sosyal kanıt</p>
+          <h1 class="text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">
+            Videolu yorumlarla güven inşa edin,
+            <span class="text-zinc-500">satışlarınızı %27 artırın.</span>
+          </h1>
+          <p class="mt-5 max-w-xl text-base leading-relaxed text-zinc-600 sm:text-lg">
+            Deswu ile müşterilerinizden saniyeler içinde video testimonial toplayın. Onaylayın, sitenizde gösterin ve ziyaretçileri alıcıya dönüştürün.
+          </p>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a href="#pricing" class="rounded-2xl bg-zinc-900 px-6 py-3 text-sm font-semibold text-white shadow-soft transition hover:-translate-y-0.5">Hemen Başla</a>
+            <a href="#social-proof" class="rounded-2xl border border-zinc-300 bg-white px-6 py-3 text-sm font-semibold text-zinc-800 transition hover:border-zinc-900">Canlı Örnek</a>
+          </div>
+          <p class="mt-4 text-xs text-zinc-500">Kurulum süresi: 5 dakika • Kod bilgisi gerekmez</p>
+        </div>
+
+        <div class="rounded-3xl border border-zinc-200 bg-white p-6 shadow-soft">
+          <p class="text-sm font-medium text-zinc-500">Neden video sosyal kanıt?</p>
+          <ul class="mt-4 space-y-3 text-sm text-zinc-700">
+            <li class="rounded-xl bg-zinc-100 px-4 py-3">✅ Gerçek yüzler ve ses tonuyla daha yüksek güven</li>
+            <li class="rounded-xl bg-zinc-100 px-4 py-3">✅ Ürün sayfalarında daha uzun kalma süresi</li>
+            <li class="rounded-xl bg-zinc-100 px-4 py-3">✅ Daha güçlü satın alma niyeti</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="social-proof" class="mx-auto max-w-6xl px-6 py-16">
+      <div class="mb-8 flex items-end justify-between gap-4">
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-zinc-500">Social Proof by Deswu</p>
+          <h2 class="mt-2 text-3xl font-semibold tracking-tight">Biz de kendi widget’ımızı böyle kullanıyoruz.</h2>
+          <p class="mt-3 max-w-2xl text-zinc-600">Aşağıdaki bölüm Deswu widget ile gömülüdür. Videolar önce thumbnail olarak yüklenir, oynatma anında video çağrılır.</p>
+        </div>
+      </div>
+
+      <div class="rounded-3xl border border-zinc-200 bg-white p-6 shadow-soft">
+        <div data-deswu-widget="grid" data-campaign-id="deswu-demo-campaign" data-api-base="/api/v1"></div>
+        <div class="mt-4 text-xs text-zinc-500">Not: Demo ortamında içerik olmayabilir; widget canlıda onaylı videolarla dolacaktır.</div>
+      </div>
+    </section>
+
+    <section id="pricing" class="border-y border-zinc-200 bg-white/70 py-16">
+      <div class="mx-auto max-w-6xl px-6">
+        <div class="mb-10 text-center">
+          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-zinc-500">Pricing</p>
+          <h2 class="mt-2 text-3xl font-semibold tracking-tight">Her ölçek için sade ve güçlü paketler</h2>
+          <p class="mt-3 text-zinc-600">İster yeni başlayan satıcı olun ister büyük marka — ihtiyacınıza göre büyüyen bir plan seçin.</p>
+        </div>
+
+        <div class="grid gap-5 lg:grid-cols-3">
+          <article class="rounded-3xl border border-zinc-200 bg-zinc-50 p-6">
+            <h3 class="text-lg font-semibold">Free</h3>
+            <p class="mt-2 text-3xl font-semibold">$0<span class="text-base font-medium text-zinc-500">/ay</span></p>
+            <ul class="mt-5 space-y-2 text-sm text-zinc-600">
+              <li>• 1 kampanya</li>
+              <li>• En fazla 5 yayınlanan video</li>
+              <li>• Powered by Deswu</li>
+            </ul>
+            <button class="mt-6 w-full rounded-xl border border-zinc-300 px-4 py-2 text-sm font-semibold">Ücretsiz Başla</button>
+          </article>
+
+          <article class="relative rounded-3xl border border-zinc-900 bg-zinc-900 p-6 text-white shadow-soft">
+            <span class="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-emerald-400 px-3 py-1 text-xs font-semibold text-zinc-900">En Popüler</span>
+            <h3 class="text-lg font-semibold">Pro</h3>
+            <p class="mt-2 text-3xl font-semibold">$49<span class="text-base font-medium text-zinc-300">/ay</span></p>
+            <ul class="mt-5 space-y-2 text-sm text-zinc-200">
+              <li>• Sınırsız kampanya</li>
+              <li>• Sınırsız video gösterimi</li>
+              <li>• Branding kaldırma</li>
+              <li>• Öncelikli destek</li>
+            </ul>
+            <button class="mt-6 w-full rounded-xl bg-white px-4 py-2 text-sm font-semibold text-zinc-900">Hemen Başla</button>
+          </article>
+
+          <article class="rounded-3xl border border-zinc-200 bg-zinc-50 p-6">
+            <h3 class="text-lg font-semibold">Enterprise</h3>
+            <p class="mt-2 text-3xl font-semibold">İletişime Geçin</p>
+            <ul class="mt-5 space-y-2 text-sm text-zinc-600">
+              <li>• Özel SLA ve güvenlik incelemesi</li>
+              <li>• API-first entegrasyon</li>
+              <li>• Özel onboarding</li>
+            </ul>
+            <button class="mt-6 w-full rounded-xl border border-zinc-300 px-4 py-2 text-sm font-semibold">Satış Ekibi ile Görüş</button>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="mx-auto max-w-6xl px-6 py-8 text-xs text-zinc-500">
+    © <span id="year"></span> Deswu. Tüm hakları saklıdır.
+  </footer>
+
+  <script src="/public/deswu-widget.js" defer></script>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
